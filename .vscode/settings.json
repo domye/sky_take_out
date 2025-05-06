@@ -1,4 +1,7 @@
 {
 	"java.compile.nullAnalysis.mode": "automatic",
-	"java.configuration.updateBuildConfiguration": "interactive"
+	"java.configuration.updateBuildConfiguration": "interactive",
+	"Codegeex.GenerationPreference": "automatic",
+	"Codegeex.Chat.fontSize": 11,
+	"Codegeex.RepoIndex": true
 }
