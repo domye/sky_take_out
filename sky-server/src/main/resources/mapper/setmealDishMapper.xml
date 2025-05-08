@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sky.mapper.setmealDishMapper">
+<mapper namespace="com.sky.mapper.SetmealDishMapper">
 
     <!-- getDishIdsBySetmealId -->
 
@@ -8,4 +8,11 @@
         setmeal_dish where dish_id in <foreach collection="dishIds" item="dishId" separator=","
             open="(" close=")">#{dishId}</foreach>
     </select>
+
+    <!-- insertSetmealDishes -->
+
+    <insert id="insertSetmealDishes"> insert into setmeal_dish (setmeal_id,
+        dish_id,name,price,copies) values <foreach collection="setmealDishes" item="id"
+            separator=","> (#{id.setmealId},#{id.dishId},#{id.name},#{id.price},#{id.copies}) </foreach></insert>
+
 </mapper>
