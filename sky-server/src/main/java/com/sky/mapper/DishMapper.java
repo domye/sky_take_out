@@ -12,8 +12,6 @@ import com.sky.entity.Dish;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
 
-import io.lettuce.core.dynamic.annotation.Param;
-
 @Mapper
 public interface DishMapper {
 
