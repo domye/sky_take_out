@@ -10,4 +10,6 @@ import com.sky.entity.DishFlavor;
 public interface DishFlavorMapper {
 
     void insertBatch(List<DishFlavor> dishFlavors);
+
+    void deleteByDishIds(List<Long> ids);
 }
