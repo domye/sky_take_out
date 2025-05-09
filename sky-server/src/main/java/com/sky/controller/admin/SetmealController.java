@@ -9,9 +9,16 @@ import com.sky.service.SetmealService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.sky.vo.SetmealVO;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 分类管理
@@ -48,4 +55,25 @@ public class SetmealController {
         SetmealVO setmealVO = setmealService.getSetmealById(id);
         return Result.success(setmealVO);
     }
+
+    @DeleteMapping
+    @ApiOperation(value = "删除套餐")
+    public Result<String> deleteSetmealByIds(@RequestParam List<Long> ids) {
+        log.info("删除套餐：{}", ids);
+        setmealService.deleteSetmealByIds(ids);
+        return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    public Result<String> updateStatus(@PathVariable("status") Integer status, Long id) {
+        setmealService.updateStatus(status, id);
+        return Result.success();
+    }
+
+    @PutMapping
+    public Result<String> update(@RequestBody SetmealDTO setmealDTO) {
+        setmealService.update(setmealDTO);
+        return Result.success();
+    }
+
 }
