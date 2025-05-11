@@ -11,3 +11,8 @@ sky:
   #   access-key-id: TAI5t7mFgB3RgPLai8v1StEL
   #   access-key-secret: u5WXuERnzBjvoYOORJaWejHy0gCA3m
   #   bucket-name: domye
+  redis:
+    host: localhost
+    port: 6379
+    password: 987789qw
+    database: 0
