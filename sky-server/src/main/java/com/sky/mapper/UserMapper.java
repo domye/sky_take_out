@@ -8,7 +8,7 @@ import com.sky.entity.User;
 @Mapper
 public interface UserMapper {
     @Select("SELECT * FROM user WHERE openid = #{id}")
-    public User getUserById(String openid);
+    public User getByOpenid(String openid);
 
     void insert(User user);
 }
