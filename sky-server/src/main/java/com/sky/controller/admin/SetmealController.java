@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 import com.sky.vo.SetmealVO;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +59,7 @@ public class SetmealController {
 
     @DeleteMapping
     @ApiOperation(value = "删除套餐")
+    @CacheEvict(cacheNames = "setmealCache", allEntries = true)
     public Result<String> deleteSetmealByIds(@RequestParam List<Long> ids) {
         log.info("删除套餐：{}", ids);
         setmealService.deleteSetmealByIds(ids);
@@ -65,12 +67,14 @@ public class SetmealController {
     }
 
     @PostMapping("/status/{status}")
+    @CacheEvict(cacheNames = "setmealCache", allEntries = true)
     public Result<String> updateStatus(@PathVariable("status") Integer status, Long id) {
         setmealService.updateStatus(status, id);
         return Result.success();
     }
 
     @PutMapping
+    @CacheEvict(cacheNames = "setmealCache", key = "#setmealDTO.id")
     public Result<String> update(@RequestBody SetmealDTO setmealDTO) {
         setmealService.update(setmealDTO);
         return Result.success();

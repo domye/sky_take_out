@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,7 @@ public class DishController {
 
     @DeleteMapping
     @ApiOperation("删除菜品")
+    @CacheEvict(cacheNames = "dish", key = "#dishDTO.id")
     public Result<String> delete(@RequestParam List<Long> ids) {
         log.info("删除菜品：{}", ids);
         dishService.delete(ids);
@@ -79,6 +81,7 @@ public class DishController {
 
     @PostMapping("/status/{status}")
     @ApiOperation("修改菜品状态")
+    @CacheEvict(cacheNames = "dish", key = "#id")
     public Result<String> updateStatus(@PathVariable("status") Integer status, Long id) {
         log.info("修改菜品状态：{},id:{}", status, id);
         dishService.updateStatus(status, id);
@@ -86,6 +89,8 @@ public class DishController {
     }
 
     @PutMapping
+    @ApiOperation("修改菜品")
+    @CacheEvict(cacheNames = "dish", key = "#dishDTO.id")
     public Result<String> updateDish(@RequestBody DishDTO dishDTO) {
         log.info("修改菜品：{}", dishDTO);
         dishService.updateDish(dishDTO);
