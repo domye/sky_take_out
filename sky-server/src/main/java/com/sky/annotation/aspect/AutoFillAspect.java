@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import org.aspectj.lang.annotation.Aspect;
