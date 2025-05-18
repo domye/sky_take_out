@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.sky.entity.OrderDetail;
-import com.sky.vo.OrderVO;
 
 @Mapper
 public interface OrderDetailMapper {

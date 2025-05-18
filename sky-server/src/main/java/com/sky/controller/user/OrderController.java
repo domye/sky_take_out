@@ -16,18 +16,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
-@RestController
+@RestController("userOrderController")
 @RequestMapping("/user/order")
 @Api(tags = "用户订单相关接口")
 public class OrderController {
@@ -73,4 +70,20 @@ public class OrderController {
         PageResult pageResult = orderService.pageQuery4User(page, pageSize, status);
         return Result.success(pageResult);
     }
+
+    @PostMapping("/repetition/{id}")
+    @ApiOperation("再来一单")
+    public Result<String> Result(@PathVariable("id") Long id) {
+        orderService.repetition(id);
+
+        return Result.success();
+    }
+
+    @PutMapping("/cancel/{id}")
+    @ApiOperation("取消订单")
+    public Result cancel(@PathVariable("id") Long id) throws Exception {
+        orderService.userCancelById(id);
+        return Result.success();
+    }
+
 }
