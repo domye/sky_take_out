@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -28,11 +29,14 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -53,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private AddressBookMapper addressBookMapper;
+
+    @Autowired
+    private WebSocketServer webSockertServer;
 
     @Override
     public OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO) {
@@ -141,7 +148,12 @@ public class OrderServiceImpl implements OrderService {
                 .checkoutTime(LocalDateTime.now())
                 .build();
 
-        orderMapper.update(orders);
+        orderMapper.update(orders); // 通过websocker向客户端发送消息
+        Map map = new HashMap<>();
+        map.put("type", 1);
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号: " + outTradeNo);
+        webSockertServer.sendToAllClient(JSON.toJSONString(map));
     }
 
     public OrderVO details(Long id) {
@@ -359,5 +371,21 @@ public class OrderServiceImpl implements OrderService {
         orders.setStatus(Orders.DELIVERY_IN_PROGRESS);
 
         orderMapper.update(orders);
+    }
+
+    @Override
+    public void reminder(Long id) {
+        // 根据id查询订单
+        Orders ordersDB = orderMapper.getById(id);
+
+        // 校验订单是否存在，并且状态为4
+        if (ordersDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+        Map map = new HashMap();
+        map.put("type", 2);
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号: " + ordersDB.getNumber());
+        webSockertServer.sendToAllClient(JSON.toJSONString(map));
     }
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @RestController("userOrderController")
@@ -83,6 +84,13 @@ public class OrderController {
     @ApiOperation("取消订单")
     public Result cancel(@PathVariable("id") Long id) throws Exception {
         orderService.userCancelById(id);
+        return Result.success();
+    }
+
+    @ApiOperation("催单")
+    @GetMapping("/reminder/{id}")
+    public Result<String> reminder(@PathVariable("id") Long id) {
+        orderService.reminder(id);
         return Result.success();
     }
 
