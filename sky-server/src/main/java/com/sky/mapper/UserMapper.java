@@ -1,5 +1,7 @@
 package com.sky.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,4 +16,6 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user WHERE id = #{userId}")
     public User getById(Long userId);
+
+    Integer countByMap(Map map);
 }
